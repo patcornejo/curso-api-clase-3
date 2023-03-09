@@ -1,0 +1,273 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users Api V1",
+    "description": "Users Api para curso metodologia desarrollo y testing Apis",
+    "contact": {
+      "email": "javier.melero@inetum.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3010/v1",
+      "description": "URL para pruebas locales."
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Buscar usuario",
+        "description": "Obtenemos la información de un usuario por Id",
+        "operationId": "usersGetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id del usuario que buscamos",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserItem"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error no especificado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                },
+                "example": "{\"success\": false, \"message\": \"error inesperado\"}"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Actualizar usuario",
+        "description": "Actualizar usuario por id",
+        "operationId": "usersPutId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id del usuario que buscamos",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Json con los valores solicitados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                },
+                "example": "{\"success\": true, \"message\": \"Usuario actualizado correctamente\"}"                  
+              }
+            }
+          },
+          "default": {
+            "description": "Error no especificado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                },
+                "example": "{\"success\": false, \"message\": \"error inesperado\"}"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Leer usuarios",
+        "description": "Obtenemos el listado de todos los usuarios",
+        "operationId": "usersGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserItem"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error no especificado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                },
+                "example": "{\"success\": false, \"message\": \"error inesperado\"}"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Crear usuario",
+        "description": "Crear un usuario con los datos especificados",
+        "operationId": "usersPost",
+        "requestBody": {
+          "description": "Json con los valores solicitados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error no especificado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseItem"
+                },
+                "example": "{\"success\": false, \"message\": \"error inesperado\"}"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseItem": {
+        "required": [
+          "success"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "operacion realizada"
+          }
+        }
+      },
+      "UserItem": {
+        "required": [
+          "age",
+          "email",
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Javier Melero"
+          },
+          "email": {
+            "type": "string",
+            "example": "javier.melero@inetum.com"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "example": 44
+          }
+        }
+      },
+      "RequestItem": {
+        "required": [
+          "age",
+          "email",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Javier Melero"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "javier.melero@inetum.com"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "example": 44
+          }
+        }
+      }
+    }
+  }
+}
